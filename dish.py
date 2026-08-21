@@ -1,8 +1,6 @@
 import subprocess as sp
 import os, sys
 
-print(sys.argv)
-
 if len(sys.argv) >= 2 :
     with open(f"{os.getcwd()}/{sys.argv[1]}","r") as rl :
         mx = rl.read()
