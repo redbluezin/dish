@@ -1,15 +1,16 @@
 import subprocess as sp
 import os, sys
 
-if len(sys.argv) == 2 :
-    with open(sys.argv[1],"r") as rl :
+print(sys.argv)
+
+if len(sys.argv) >= 2 :
+    with open(f"{os.getcwd()}/{sys.argv[1]}","r") as rl :
         mx = rl.read()
 else :
     raise ValueError("dish: erro, formatação Invalida")
 
 mx = mx.split("\n")
 hh = sys.argv[1:]
-print(hh)
 
 for vn, ps in enumerate(mx) :
     if ps.startswith("import") :
@@ -21,8 +22,7 @@ for vn, ps in enumerate(mx) :
         mx[vn] = ps+"\n"
 
 p = "".join(mx)
-print(p)
-mb = sp.run(["sh","-c", p, *hh], capture_output=True)
+mb = sp.run(["sh","-c", p, *hh], capture_output=True, text=True)
 
 print(mb.stdout)
 print(mb.stderr)
