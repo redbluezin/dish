@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/bash
+#!/data/data/com.termux/files/usr/bin/sh
 
 pkg install python git -y
 
@@ -16,8 +16,7 @@ else
 fi
 
 grep -q '^dish() {' "$HOME/.bashrc" || \
-echo 'dish() { exec python "$HOME/.dish/dish.py" "$@"; }' >> "$HOME/.bashrc"
-
-source "$HOME/.bashrc"
+echo 'dish() { python "$HOME/.dish/dish.py" "$@"; }' >> "$HOME/.bashrc"
 
 echo "dish instalado com sucesso! 🐟"
+echo "Reinicie o Termux para usar o comando 'dish'."
