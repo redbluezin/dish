@@ -12,7 +12,7 @@ elif [ -d "$HOME/dish/.git" ]; then
 
 else
     echo "Baixando dish..."
-    git clone https://github.com/redbluezin/dish/dish.py "$HOME/.dish"
+    git clone https://github.com/redbluezin/dish "$HOME/.dish"
 fi
 
 grep -q '^dish() {' "$HOME/.bashrc" || \
