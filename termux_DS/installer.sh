@@ -6,19 +6,17 @@
 
 if ! command -v python >/dev/null 2>&1; then
     echo "Python não encontrado."
-    echo "Instalando Python..."
     pkg install python -y
 fi
 
 if ! command -v git >/dev/null 2>&1; then
     echo "Git não encontrado."
-    echo "Instalando Git..."
     pkg install git -y
 fi
 
 
 # =========================================================
-# Instalação / atualização do Dish
+# Instalação / atualização
 # =========================================================
 
 if [ -d "$HOME/.dish/.git" ]; then
@@ -26,22 +24,14 @@ if [ -d "$HOME/.dish/.git" ]; then
     echo "Atualizando dish..."
     git -C "$HOME/.dish" pull
 
-elif [ -d "$HOME/dish/termux_DS/.git" ]; then
-
-    echo "Migrando dish para .dish..."
-    mv "$HOME/dish/termux_DS" "$HOME/.dish"
-
 elif [ -d "$HOME/dish/termux_DS" ]; then
 
-    echo "Encontrada instalação antiga do dish."
-    echo "Migrando para .dish..."
-
-    mv "$HOME/dish/termux_DS" "$HOME/.dish"
+    echo "Migrando dish para .dish..."
+    mv "$HOME/dish" "$HOME/.dish"
 
 else
 
     echo "Baixando dish..."
-
     git clone https://github.com/redbluezin/dish "$HOME/.dish"
 
 fi
@@ -53,32 +43,13 @@ fi
 
 DISHRC="$HOME/.dishrc"
 
-if [ ! -f "$DISHRC" ]; then
-
-    echo "Criando .dishrc..."
-
-    cat > "$DISHRC" <<'EOF'
+cat > "$DISHRC" <<'EOF'
 # Dish configuration
 
 dish() {
-    python "$HOME/.dish/dish.py" "$@"
+    python "$HOME/.dish/termux_DS/dish.py" "$@"
 }
 EOF
-
-else
-
-    if ! grep -q '^dish() {' "$DISHRC"; then
-
-        cat >> "$DISHRC" <<'EOF'
-
-dish() {
-    python "$HOME/.dish/dish.py" "$@"
-}
-EOF
-
-    fi
-
-fi
 
 
 # =========================================================
@@ -91,8 +62,7 @@ if [ ! -f "$PROFILE" ]; then
     touch "$PROFILE"
 fi
 
-if ! grep -q 'HOME/.dishrc' "$PROFILE"; then
-
+if ! grep -qF '. "$HOME/.dishrc"' "$PROFILE"; then
     cat >> "$PROFILE" <<'EOF'
 
 # Load Dish configuration
@@ -100,7 +70,6 @@ if [ -f "$HOME/.dishrc" ]; then
     . "$HOME/.dishrc"
 fi
 EOF
-
 fi
 
 
@@ -114,7 +83,7 @@ fi
 echo ""
 echo "dish instalado com sucesso! 🐟"
 echo ""
-echo "O .dishrc está em:"
-echo "$DISHRC"
+echo "Executável:"
+echo "$HOME/.dish/termux_DS/dish.py"
 echo ""
 echo "O comando 'dish' já está disponível!"
