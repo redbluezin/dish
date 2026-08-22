@@ -13,8 +13,12 @@ hh = sys.argv[1:]
 for vn, ps in enumerate(mx) :
     if ps.startswith("import") :
         vf = ps.split()[1]
-        with open(f"/storage/emulated/0/testes/tu2/{vf}", "r") as r :
-            vm = r.read()
+        if "/" in vf:
+            with open(vf, "r") as r :
+                vm = r.read()
+        else :
+            with open(f"/storage/emulated/0/testes/tu2/{vf}", "r") as r :
+                vm = r.read()
         mx[vn] = f"{vm}\n"
     else :
         mx[vn] = ps+"\n"
